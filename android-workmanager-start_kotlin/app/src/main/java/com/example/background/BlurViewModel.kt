@@ -115,6 +115,10 @@ class BlurViewModel(application: Application) : ViewModel() {
         outputUri = uriOrNull(outputImageUri)
     }
 
+    internal fun cancelWork(){
+        workManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME)
+    }
+
 
     class BlurViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
 
