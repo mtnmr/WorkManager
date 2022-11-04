@@ -12,7 +12,9 @@ import com.example.breaktimealarm.ui.theme.BreakTimeAlarmTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: BreakTimeViewModel by viewModels()
+    private val viewModel: BreakTimeViewModel by viewModels(){
+        BreakTimeViewModelFactory(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

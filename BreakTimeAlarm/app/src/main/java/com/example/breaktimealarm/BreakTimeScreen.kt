@@ -56,7 +56,7 @@ fun BreakTimeScreen(
         }
         
         Button(
-            onClick = {  },
+            onClick = { viewModel.createBreakTimeNotification(breakTime) },
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
@@ -81,7 +81,7 @@ fun BreakTimeScreenPreview(){
                 .background(MaterialTheme.colors.background)
         ) {
             BreakTimeScreen(
-                viewModel = BreakTimeViewModel()
+                viewModel = BreakTimeViewModel(MyApplication())
             )
         }
     }
