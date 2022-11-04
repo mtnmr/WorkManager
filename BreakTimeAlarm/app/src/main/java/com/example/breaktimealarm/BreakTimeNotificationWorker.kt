@@ -8,13 +8,20 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
+
+
+const val FINISH = "finish"
 
 class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): Worker(context, params) {
 
-    val notificationId = 1
+    private val notificationId = 1
 
     override fun doWork(): Result {
+
         return try {
+            val inputData = inputData.getBoolean(FINISH, true)
+
             val intent = Intent(applicationContext, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
@@ -35,7 +42,8 @@ class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): W
             }
 
             Log.d("worker", "create notification")
-            Result.success()
+            val data = workDataOf(FINISH to false)
+            Result.success(data)
         }catch (e:Exception){
             Log.d("BreakTimeAlarm", "failure : $e")
             Result.failure()

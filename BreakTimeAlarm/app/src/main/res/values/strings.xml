@@ -3,6 +3,7 @@
     <string name="break_time_select_title">休憩時間を選択しよう</string>
     <string name="minute">分</string>
     <string name="break_time">休憩する！</string>
+    <string name="resting">休憩中...</string>
     <string name="current_break_time">休憩時間設定　%s分</string>
 
     <string name="channel_name">BreakTime</string>

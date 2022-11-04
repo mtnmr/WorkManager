@@ -14,14 +14,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
 import com.example.breaktimealarm.ui.theme.BreakTimeAlarmTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BreakTimeScreen(
-    viewModel: BreakTimeViewModel
+    viewModel: BreakTimeViewModel,
+    lifecycleOwner: LifecycleOwner
 ){
     val breakTime by viewModel.breakTime.collectAsState()
+    val isResting by viewModel.isResting.collectAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -56,11 +59,22 @@ fun BreakTimeScreen(
         }
         
         Button(
-            onClick = { viewModel.createBreakTimeNotification(breakTime) },
+            onClick = {
+                val number = breakTime.toLongOrNull()
+                if(number != null){
+                    viewModel.createBreakTimeNotification(number, lifecycleOwner)
+                }
+                keyboardController?.hide()
+            },
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.break_time),
+                text = 
+                 if(isResting){
+                    stringResource(id = R.string.resting)
+                 }else{
+                    stringResource(id = R.string.break_time)
+                 },
                 style = MaterialTheme.typography.h4
             )
         }
@@ -81,7 +95,8 @@ fun BreakTimeScreenPreview(){
                 .background(MaterialTheme.colors.background)
         ) {
             BreakTimeScreen(
-                viewModel = BreakTimeViewModel(MyApplication())
+                viewModel = BreakTimeViewModel(MyApplication()),
+                lifecycleOwner = MainActivity()
             )
         }
     }
