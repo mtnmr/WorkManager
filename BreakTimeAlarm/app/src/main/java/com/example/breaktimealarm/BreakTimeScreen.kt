@@ -15,11 +15,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.breaktimealarm.ui.theme.BreakTimeAlarmTheme
+import com.example.breaktimealarm.ui.theme.BreakTimeViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun BreakTimeScreen(){
-    var minute by remember { mutableStateOf("") }
+fun BreakTimeScreen(
+    viewModel: BreakTimeViewModel
+){
+    val breakTime by viewModel.breakTime.collectAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -40,8 +43,8 @@ fun BreakTimeScreen(){
             verticalAlignment = Alignment.Bottom
         ) {
             TextField(
-                value = minute,
-                onValueChange = { minute = it },
+                value = breakTime,
+                onValueChange = { viewModel.updateBreakTime(it) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
                 textStyle = MaterialTheme.typography.h4,
@@ -62,6 +65,10 @@ fun BreakTimeScreen(){
                 style = MaterialTheme.typography.h4
             )
         }
+
+        Text(
+            text = stringResource(id = R.string.current_break_time, breakTime)
+        )
     }
 }
 
@@ -74,7 +81,9 @@ fun BreakTimeScreenPreview(){
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
-            BreakTimeScreen()
+            BreakTimeScreen(
+                viewModel = BreakTimeViewModel()
+            )
         }
     }
 }
