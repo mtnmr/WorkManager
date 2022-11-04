@@ -15,7 +15,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.breaktimealarm.ui.theme.BreakTimeAlarmTheme
-import com.example.breaktimealarm.ui.theme.BreakTimeViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package com.example.breaktimealarm.ui.theme
+package com.example.breaktimealarm
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

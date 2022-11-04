@@ -9,7 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.example.breaktimealarm.ui.theme.BreakTimeAlarmTheme
-import com.example.breaktimealarm.ui.theme.BreakTimeViewModel
 
 class MainActivity : ComponentActivity() {
 
