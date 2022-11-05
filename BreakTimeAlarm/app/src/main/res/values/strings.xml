@@ -9,5 +9,5 @@
     <string name="channel_name">BreakTime</string>
     <string name="channel_description">BreakTime finish notification</string>
     <string name="break_time_notification_title">休憩時間終了！</string>
-    <string name="break_time_notification_description">休憩時間終わったから勉強頑張ろうね</string>
+    <string name="break_time_notification_description">%d分休憩時間終わったから勉強頑張ろうね</string>
 </resources>

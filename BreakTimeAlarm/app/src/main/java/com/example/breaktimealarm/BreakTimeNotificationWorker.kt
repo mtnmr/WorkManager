@@ -12,6 +12,7 @@ import androidx.work.workDataOf
 
 
 const val FINISH = "finish"
+const val BREAK_TIME = "break time"
 
 class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): Worker(context, params) {
 
@@ -20,7 +21,7 @@ class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): W
     override fun doWork(): Result {
 
         return try {
-            val inputData = inputData.getBoolean(FINISH, true)
+            val inputBreakTime = inputData.getLong(BREAK_TIME, 0)
 
             val intent = Intent(applicationContext, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -32,7 +33,7 @@ class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): W
             val builder = NotificationCompat.Builder(applicationContext, MyApplication.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(applicationContext.getString(R.string.break_time_notification_title))
-                .setContentText(applicationContext.getText(R.string.break_time_notification_description))
+                .setContentText(applicationContext.getString(R.string.break_time_notification_description, inputBreakTime.toInt()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)

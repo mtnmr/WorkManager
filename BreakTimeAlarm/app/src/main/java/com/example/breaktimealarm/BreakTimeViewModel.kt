@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 const val REQUEST_TAG = "request_tag"
 
 class BreakTimeViewModel(private val application: Application):ViewModel() {
-    private var _breakTime = MutableStateFlow("")
+    private val _breakTime = MutableStateFlow("")
     val breakTime:StateFlow<String> = _breakTime.asStateFlow()
 
     private var _isResting = MutableStateFlow(false)
@@ -24,14 +24,15 @@ class BreakTimeViewModel(private val application: Application):ViewModel() {
         _breakTime.value = minute
     }
 
-    fun updateResting(b:Boolean){
+    private fun updateResting(b:Boolean){
         _isResting.value = b
     }
 
     fun createBreakTimeNotification(currentNumber:Long, lifecycleOwner: LifecycleOwner){
         val workRequest = OneTimeWorkRequestBuilder<BreakTimeNotificationWorker>()
             .setInitialDelay(currentNumber, TimeUnit.SECONDS)
-            .setInputData(createInputData())
+            .setInputData(createIsRestingInputData())
+            .setInputData(createBreakTimeInputData(currentNumber))
             .addTag(REQUEST_TAG)
             .build()
         workManager.enqueue(workRequest)
@@ -46,9 +47,14 @@ class BreakTimeViewModel(private val application: Application):ViewModel() {
         })
     }
 
-    private fun createInputData(): Data {
+    private fun createIsRestingInputData(): Data {
         val builder = Data.Builder()
         return builder.putBoolean(FINISH, true).build()
+    }
+
+    private fun createBreakTimeInputData(number:Long): Data{
+        val builder = Data.Builder()
+        return builder.putLong(BREAK_TIME, number).build()
     }
 }
 
