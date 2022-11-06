@@ -9,10 +9,13 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-const val FINISH = "finish"
+const val IS_RESTING = "isResting"
 const val BREAK_TIME = "break time"
+const val LAST_BREAK_TIME = "last break time"
 
 class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): Worker(context, params) {
 
@@ -43,7 +46,11 @@ class BreakTimeNotificationWorker(context: Context, params: WorkerParameters): W
             }
 
             Log.d("worker", "create notification")
-            val data = workDataOf(FINISH to false)
+            val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.JAPAN).format(Date())
+            val data = workDataOf(
+                IS_RESTING to false,
+                LAST_BREAK_TIME to currentDate
+            )
             Result.success(data)
         }catch (e:Exception){
             Log.d("BreakTimeAlarm", "failure : $e")

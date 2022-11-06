@@ -23,8 +23,7 @@ fun BreakTimeScreen(
     viewModel: BreakTimeViewModel,
     lifecycleOwner: LifecycleOwner
 ){
-    val breakTime by viewModel.breakTime.collectAsState()
-    val isResting by viewModel.isResting.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -45,7 +44,7 @@ fun BreakTimeScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             TextField(
-                value = breakTime,
+                value = uiState.breakTime,
                 onValueChange = { viewModel.updateBreakTime(it) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
@@ -60,7 +59,7 @@ fun BreakTimeScreen(
         
         Button(
             onClick = {
-                val number = breakTime.toLongOrNull()
+                val number = uiState.breakTime.toLongOrNull()
                 if(number != null){
                     viewModel.createBreakTimeNotification(number, lifecycleOwner)
                 }
@@ -70,7 +69,7 @@ fun BreakTimeScreen(
         ) {
             Text(
                 text = 
-                 if(isResting){
+                 if(uiState.isResting){
                     stringResource(id = R.string.resting)
                  }else{
                     stringResource(id = R.string.break_time)
@@ -80,7 +79,12 @@ fun BreakTimeScreen(
         }
 
         Text(
-            text = stringResource(id = R.string.current_break_time, breakTime)
+            text = stringResource(id = R.string.current_break_time, uiState.breakTime),
+        )
+
+        Text(
+            text = stringResource(id = R.string.last_break_time, uiState.lastBreakTimeDate),
+            modifier = Modifier.padding(16.dp)
         )
     }
 }
