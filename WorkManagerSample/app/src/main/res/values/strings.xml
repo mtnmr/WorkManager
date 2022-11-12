@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WorkManagerSample</string>
+    <string name="break_time_notification_description">%d分経過しました</string>
+</resources>
